@@ -41,7 +41,15 @@ location = soup.findAll('div')
 for i in soup.select('span[class=btn_select]'): 
     display_location = i.text
 
-#pprint(data2)
+# 날씨 캐스트
+display_weathercast = soup.find('p', {'class' : 'cast_txt'}).text
+
+sunny = QImage("./image/sunny.png")
+rainy = QImage("./image/rainy.png")
+snowing = QImage("./image/snowing.png")
+cloudy = QImage("./image/coludy.png")
+
+
 
 fine_dust = data2[0].find('span', {'class':'num'}).text
 display_find_dust = "미세먼지 : "
@@ -52,15 +60,16 @@ display_ultra_find_dust = "초미세먼지 : "
 display_ultra_find_dust += ultra_fine_dust
 
 today_temperature = data4[0].find('span',{'class':'todaytemp'}).text
-display_today_temperature = "현재 온도 : 섭씨 "
+display_today_temperature = "현재 온도 : "
 display_today_temperature += today_temperature
-display_today_temperature += " 도"
+display_today_temperature += " °C"
 
 print("현재 이 지역의 날씨")
 print(display_today_temperature)
 print(display_find_dust)
 print(display_ultra_find_dust)
 print(display_location)
+print(display_weathercast)
 
 
 class Ui_Elgo_Weather(object):
@@ -76,7 +85,6 @@ class Ui_Elgo_Weather(object):
         Elgo_Weather.setMaximumSize(QtCore.QSize(screen_width, screen_height))
         Elgo_Weather.setSizeIncrement(QtCore.QSize(0, 0))
         Elgo_Weather.setBaseSize(QtCore.QSize(0, 0))
-        #Elgo_Weather.setStyleSheet("background-color: rgb(86, 97, 142);")
         self.Location = QtWidgets.QLabel(Elgo_Weather)
         self.Location.setGeometry(QtCore.QRect(120, 60, 811, 111))
         font = QtGui.QFont()
@@ -234,30 +242,44 @@ class Ui_Elgo_Weather(object):
         _translate = QtCore.QCoreApplication.translate
         Elgo_Weather.setWindowTitle(_translate("Elgo_Weather", "Dialog"))
         #self.Location.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:72pt;\">위치 출력부</span></p></body></html>"))
-        self.Mainimage.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">날씨 이미지 표시부</span></p></body></html>"))
+        #self.Mainimage.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:18pt;\">날씨 이미지 표시부</span></p></body></html>"))
         #self.MainWeather.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:26pt;\">온도 기준 맑음,흐림 기준표시</span></p></body></html>"))
         self.Image2.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\">이미지</p></body></html>"))
         self.Image5.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\">이미지</p></body></html>"))
         self.Image4.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\">이미지</p></body></html>"))
         self.Image3.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\">이미지</p></body></html>"))
         self.Image1.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\">이미지</p></body></html>"))
-        self.Time2.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">시간</span></p></body></html>"))
-        self.Time1.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">시간</span></p></body></html>"))
-        self.Time3.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">시간</span></p></body></html>"))
-        self.Time4.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">시간</span></p></body></html>"))
-        self.Time5.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:22pt;\">시간</span></p></body></html>"))
-        self.TemporatureTitle.setText(_translate("Elgo_Weather", "<html><head/><body><p><span style=\" font-size:26pt;\">온도</span></p></body></html>"))
-        self.label.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">온도수치 (단위 : 섭씨)</span></p></body></html>"))
+        self.Time2.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:19pt;\">시간</span></p></body></html>"))
+        self.Time1.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:19pt;\">시간</span></p></body></html>"))
+        self.Time3.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:19pt;\">시간</span></p></body></html>"))
+        self.Time4.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:19pt;\">시간</span></p></body></html>"))
+        self.Time5.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:19pt;\">시간</span></p></body></html>"))
+        self.TemporatureTitle.setText(_translate("Elgo_Weather", "<html><head/><body><p><span style=\" font-size:23pt;\">온도</span></p></body></html>"))
+        #self.label.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">온도수치 (단위 : 섭씨)</span></p></body></html>"))
         self.label_2.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">강수확률</span></p></body></html>"))
         self.label_3.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">강수량</span></p></body></html>"))
         self.label_4.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">미세먼지 농도</span></p></body></html>"))
         self.label_5.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">풍량</span></p></body></html>"))
-        self.label_6.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:24pt;\">?%</span></p></body></html>"))
+        self.label_6.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">?%</span></p></body></html>"))
         self.label_7.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">?mm</span></p></body></html>"))
         self.label_8.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">??</span></p></body></html>"))
         self.label_9.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">??</span></p></body></html>"))
-        self.Location.setText(display_location)
-        self.MainWeather.setText(display_today_temperature)
+        self.Location.setText("<html><head/><body><p align=\"center\"><span style=\" font-size:20pt;\">" + display_location)
+        self.MainWeather.setText(display_weathercast)
+        self.label.setText(_translate("Elgo_Weather", "<html><head/><body><p align=\"center\"><span style=\" font-size:48pt;\">"+display_today_temperature+"</span></p></body></html>"))
+        if display_weathercast[0] == '맑':
+            self.Mainimage.setPixmap(QtGui.QPixmap("./Image/sunny.png"))
+            self.Mainimage.setGeometry(QtCore.QRect(200,200, 422, 423))
+
+        elif display_weathercast[0] == '흐':
+            self.Mainimage.setPixmap(QtGui.QPixmap("./Image/cloudy.png"))
+
+        elif display_weathercast[0] == '비':
+            self.Mainimage.setPixmap(QtGui.QPixmap("./Image/rainy.png"))
+
+        elif display_weathercast[0] == '눈':
+            self.Mainimage.setPixmap(QtGui.QPixmap("./Image/snowing.png"))
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

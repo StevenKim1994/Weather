@@ -1,2 +1,3 @@
-# Elgo
-친구가 하는 사업 배울겸 도와주는중
+# Wheather
+
+Pyqt5 + Beautiful Soup
